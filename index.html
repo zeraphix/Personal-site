@@ -5,40 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zain Mohamed - Portfolio</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Google Font: Inter (clean, modern, free) -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Animated Particle Background -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Dark/Light Mode Toggle -->
+    <div class="theme-toggle">
+        <input type="checkbox" id="theme-switch" class="theme-switch-input">
+        <label for="theme-switch" class="theme-switch-label">
+            <span class="sun">☀️</span>
+            <span class="moon">🌙</span>
+        </label>
+    </div>
+
     <!-- Fixed Sidebar Navigation -->
     <nav class="sidebar">
         <ul>
-            <li><a href="#home" class="active">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#home" class="nav-btn active">Home</a></li>
+            <li><a href="#about" class="nav-btn">About</a></li>
+            <li><a href="#projects" class="nav-btn">Projects</a></li>
+            <li><a href="#contact" class="nav-btn">Contact</a></li>
         </ul>
     </nav>
 
-    <!-- Main Content -->
+    <!-- Main Content Sections -->
     <main>
         <section id="home">
             <div class="content">
-                <h1>Hello, I'm Zain Mohamed</h1>
-                <p>First-Year Software Engineering Student<br>Building modern web projects with HTML, CSS, JS & Git</p>
+                <h1>Hello, I'm Xsuthyr</h1>
+                <p>First-Year Software Engineering Student<br>Building modern, animated web experiences</p>
             </div>
         </section>
 
         <section id="about">
             <div class="content">
                 <h2>About Me</h2>
-                <p>Passionate about clean code and beautiful design.<br>Learning web development one project at a time.</p>
+                <p>Passionate about clean code, advanced animations, and professional design.<br>Learning full-stack development one project at a time.</p>
             </div>
         </section>
 
         <section id="projects">
             <div class="content">
                 <h2>Projects</h2>
-                <p>• Interactive To-Do List App<br>• This Portfolio Website<br>• More coming soon!</p>
+                <p>• Interactive To-Do List App<br>• Advanced Animated Portfolio (this site)<br>• More coming soon!</p>
             </div>
         </section>
 
