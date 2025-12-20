@@ -1,22 +1,21 @@
-// Parallax effect
+// Highlight sidebar link on scroll
+const sections = document.querySelectorAll('section');
+const navLinks = document.querySelectorAll('.sidebar a');
+
 window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    document.querySelectorAll('.parallax-bg').forEach(bg => {
-        bg.style.transform = `translateY(${scrolled * 0.5}px)`;
-    });
-});
-
-// Animate content when scrolled into view
-const contents = document.querySelectorAll('.content');
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('animate');
+    let current = '';
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop - 150;
+        const sectionHeight = section.clientHeight;
+        if (pageYOffset >= sectionTop) {
+            current = section.getAttribute('id');
         }
     });
-}, { threshold: 0.3 });
 
-contents.forEach(content => {
-    observer.observe(content);
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) {
+            link.classList.add('active');
+        }
+    });
 });
