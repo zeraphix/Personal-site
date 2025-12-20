@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zain Mohamed - Portfolio</title>
+    <title>Zain - Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Animated Particle Background -->
     <canvas id="particle-canvas"></canvas>
 
-    <!-- Dark/Light Mode Toggle with Text -->
+    <!-- Theme Toggle -->
     <div class="theme-toggle">
         <input type="checkbox" id="theme-switch" class="theme-switch-input">
         <label for="theme-switch" class="theme-switch-label">
@@ -20,64 +19,97 @@
         </label>
     </div>
 
-    <!-- Fixed Sidebar with Smaller Buttons -->
+    <!-- Sidebar -->
     <nav class="sidebar">
         <ul>
             <li><a href="#home" class="nav-btn active">Home</a></li>
             <li><a href="#about" class="nav-btn">About</a></li>
             <li><a href="#projects" class="nav-btn">Projects</a></li>
+            <li><a href="#skills" class="nav-btn">Skills</a></li>
             <li><a href="#contact" class="nav-btn">Contact</a></li>
         </ul>
     </nav>
 
-    <!-- Main Content -->
     <main>
         <section id="home">
             <div class="content">
                 <h1>Xsuthyr here</h1>
-                <p>First-Year Software Engineering Student<br>
-                Passionate about creating modern, responsive, and animated web experiences using HTML, CSS, JavaScript, and Git.<br>
-                Always learning and building real-world projects to grow my skills.</p>
+                <p>First-year software engineering student.<br>
+                I build clean, modern websites with smooth animations and great user experience.</p>
             </div>
         </section>
 
         <section id="about">
             <div class="content">
                 <h2>About Me</h2>
-                <p>I am a dedicated first-year software engineering student with a strong interest in front-end development and user experience design.<br><br>
-                I love turning ideas into interactive websites with smooth animations, clean layouts, and professional polish. Currently mastering advanced CSS techniques, JavaScript logic, and version control with Git/GitHub.<br><br>
-                My goal is to build useful, beautiful applications that solve real problems while continuously improving my craft.</p>
+                <p>I'm passionate about front-end development and turning ideas into interactive, beautiful web apps.<br><br>
+                Currently leveling up my skills in HTML, CSS, JavaScript, and Git — always learning and building new things.</p>
             </div>
         </section>
 
         <section id="projects">
             <div class="content">
                 <h2>Projects</h2>
-                <p>• <strong>Interactive To-Do List App</strong> – My first full JavaScript project with add/delete functionality and local storage persistence.<br><br>
-                • <strong>Advanced Animated Portfolio</strong> – This site! Features particle background, smooth scroll animations, dark/light mode toggle, and responsive design.<br><br>
-                • <strong>Weather Dashboard</strong> – Upcoming project using API integration to display real-time weather data with beautiful visuals.<br><br>
-                • More exciting projects in development – stay tuned!</p>
+                <p>• Interactive To-Do List (my first JS project with local storage)<br><br>
+                • This Portfolio (particles, animations, dark/light mode, skill bars)<br><br>
+                • Weather Dashboard (coming soon — real API data + sleek design)<br><br>
+                More on the way!</p>
+            </div>
+        </section>
+
+        <section id="skills">
+            <div class="content">
+                <h2>Skills</h2>
+                <div class="skills-container">
+                    <div class="skill">
+                        <div class="skill-name">HTML</div>
+                        <div class="skill-bar"><div class="skill-level" data-level="90"></div></div>
+                        <div class="skill-percent">90%</div>
+                    </div>
+                    <div class="skill">
+                        <div class="skill-name">CSS</div>
+                        <div class="skill-bar"><div class="skill-level" data-level="85"></div></div>
+                        <div class="skill-percent">85%</div>
+                    </div>
+                    <div class="skill">
+                        <div class="skill-name">JavaScript</div>
+                        <div class="skill-bar"><div class="skill-level" data-level="75"></div></div>
+                        <div class="skill-percent">75%</div>
+                    </div>
+                    <div class="skill">
+                        <div class="skill-name">Git & GitHub</div>
+                        <div class="skill-bar"><div class="skill-level" data-level="80"></div></div>
+                        <div class="skill-percent">80%</div>
+                    </div>
+                    <div class="skill">
+                        <div class="skill-name">Responsive Design</div>
+                        <div class="skill-bar"><div class="skill-level" data-level="85"></div></div>
+                        <div class="skill-percent">85%</div>
+                    </div>
+                </div>
             </div>
         </section>
 
         <section id="contact">
             <div class="content">
-                <h2>Contact</h2>
-                <p>I'm always open to discussing new opportunities, collaboration, or just talking tech!<br><br>
+                <h2>Get in Touch</h2>
+                <p>Always happy to chat about code, projects, or opportunities.<br><br>
                 Email: zainmohamedgamal57@gmail.com<br>
-                GitHub: <a href="https://github.com/zeraphix" target="_blank" style="color: var(--accent); text-decoration: underline;">github.com/zeraphix</a><br><br>
-                Feel free to reach out — I'd love to hear from you.</p>
+                GitHub: <a href="https://github.com/zeraphix" target="_blank" style="color: var(--accent);">github.com/zeraphix</a></p>
             </div>
         </section>
     </main>
 
-    <!-- Smaller Floating Search Button -->
-    <!-- Floating Search Button with SVG Icon -->
-<div class="search-float">
-    <button class="search-btn" aria-label="Search">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-    </button>
-</div>
+    <!-- Search Button -->
+    <div class="search-float">
+        <button class="search-btn" aria-label="Search">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+        </button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

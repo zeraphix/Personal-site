@@ -1,11 +1,11 @@
-// Particle Background
+// Particles
 const canvas = document.getElementById('particle-canvas');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 let particles = [];
-const particleCount = 80;
+const count = 80;
 
 class Particle {
     constructor() {
@@ -31,22 +31,17 @@ class Particle {
 
 function initParticles() {
     particles = [];
-    for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
-    }
+    for (let i = 0; i < count; i++) particles.push(new Particle());
 }
 
-function animateParticles() {
+function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
-        p.update();
-        p.draw();
-    });
-    requestAnimationFrame(animateParticles);
+    particles.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(animate);
 }
 
 initParticles();
-animateParticles();
+animate();
 
 window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
@@ -54,11 +49,11 @@ window.addEventListener('resize', () => {
     initParticles();
 });
 
-// Dark/Light Mode Toggle
+// Theme Toggle
 const themeSwitch = document.getElementById('theme-switch');
-const currentTheme = localStorage.getItem('theme');
+const savedTheme = localStorage.getItem('theme');
 
-if (currentTheme === 'light') {
+if (savedTheme === 'light') {
     document.documentElement.setAttribute('data-theme', 'light');
     themeSwitch.checked = true;
 }
@@ -68,40 +63,43 @@ themeSwitch.addEventListener('change', () => {
         document.documentElement.setAttribute('data-theme', 'light');
         localStorage.setItem('theme', 'light');
     } else {
-        document.documentElement.setAttribute('data-theme', '');
+        document.documentElement.removeAttribute('data-theme');
         localStorage.setItem('theme', 'dark');
     }
-    initParticles(); // Update particle color
+    initParticles();
 });
 
-// Fade-in content on scroll
+// Fade in content
 const contents = document.querySelectorAll('.content');
-const observer = new IntersectionObserver((entries) => {
+const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-        }
+        if (entry.isIntersecting) entry.target.classList.add('visible');
     });
 }, { threshold: 0.2 });
+contents.forEach(c => observer.observe(c));
 
-contents.forEach(content => observer.observe(content));
-
-// Sidebar active state on scroll
+// Sidebar active link
 const sections = document.querySelectorAll('section');
-const navBtns = document.querySelectorAll('.nav-btn');
+const links = document.querySelectorAll('.nav-btn');
 
 window.addEventListener('scroll', () => {
     let current = '';
-    sections.forEach(section => {
-        if (pageYOffset >= section.offsetTop - 200) {
-            current = section.getAttribute('id');
-        }
+    sections.forEach(sec => {
+        if (pageYOffset >= sec.offsetTop - 200) current = sec.id;
     });
-
-    navBtns.forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.getAttribute('href') === `#${current}`) {
-            btn.classList.add('active');
-        }
+    links.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
     });
 });
+
+// Skill bars animation
+const bars = document.querySelectorAll('.skill-level');
+const barObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const level = entry.target.getAttribute('data-level');
+            entry.target.style.width = `${level}%`;
+        }
+    });
+}, { threshold: 0.5 });
+bars.forEach(bar => barObserver.observe(bar));
