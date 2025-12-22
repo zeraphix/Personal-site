@@ -286,3 +286,13 @@ async function sendMessage() {
     aiChat.lastChild.remove();
     addMessage(reply, 'bot');
 }
+
+// Left floating buttons functionality
+document.querySelector('.theme-float').addEventListener('click', () => {
+    themeSwitch.checked = !themeSwitch.checked;
+    themeSwitch.dispatchEvent(new Event('change'));
+});
+
+document.querySelector('.top-float').addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
