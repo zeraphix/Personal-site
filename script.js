@@ -113,7 +113,7 @@ const barObserver = new IntersectionObserver(entries => {
 }, { threshold: 0.5 });
 bars.forEach(bar => barObserver.observe(bar));
 
-// Hamburger Menu - now working on mobile
+// Hamburger Menu
 const hamburger = document.querySelector('.hamburger');
 const sidebar = document.querySelector('.sidebar');
 
@@ -129,43 +129,66 @@ document.querySelectorAll('.nav-btn').forEach(link => {
     });
 });
 
-// Search Modal
+// Search & AI Functionality
+const aiBtn = document.querySelector('.ai-btn');
 const searchBtn = document.querySelector('.search-btn');
+const aiModal = document.getElementById('ai-modal');
 const searchModal = document.getElementById('search-modal');
+const closeAi = document.querySelector('.close-ai');
 const closeSearch = document.querySelector('.close-search');
+const aiInput = document.getElementById('ai-input');
+const aiSend = document.getElementById('ai-send');
+const aiChat = document.getElementById('ai-chat');
 const searchInput = document.getElementById('search-input');
 const searchResults = document.getElementById('search-results');
 const noResults = document.getElementById('no-results');
 
 const searchableContent = [
-    { title: "Home", text: "Developer First-year software engineering student", url: "#home" },
-    { title: "About Me", text: "passionate about front-end development interactive beautiful web apps HTML CSS JavaScript Git", url: "#about" },
-    { title: "Projects", text: "Interactive To-Do List Portfolio Weather Dashboard", url: "#projects" },
-    { title: "Skills", text: "HTML CSS JavaScript Git GitHub Responsive Design", url: "#skills" },
-    { title: "Contact", text: "email github", url: "#contact" }
+    { title: "Home", text: "developer student", url: "#home" },
+    { title: "About", text: "passionate front-end", url: "#about" },
+    { title: "Projects", text: "to-do list portfolio movie chat expense", url: "#projects" },
+    { title: "Skills", text: "html css javascript git responsive", url: "#skills" },
+    { title: "Experience", text: "self-taught freelance contributor", url: "#experience" },
+    { title: "Blog", text: "web development learning semantic", url: "#blog" },
+    { title: "Testimonials", text: "client feedback excellent", url: "#testimonials" },
+    { title: "Contact", text: "email github touch", url: "#contact" }
 ];
 
+// Open modals
+aiBtn.addEventListener('click', () => {
+    aiModal.classList.add('show');
+    aiInput.focus();
+});
+
 searchBtn.addEventListener('click', () => {
-    searchModal.style.display = 'flex';
+    searchModal.classList.add('show');
     searchInput.focus();
 });
 
+// Close modals
+closeAi.addEventListener('click', () => aiModal.classList.remove('show'));
 closeSearch.addEventListener('click', () => {
-    searchModal.style.display = 'none';
+    searchModal.classList.remove('show');
     searchInput.value = '';
     searchResults.innerHTML = '';
     noResults.style.display = 'none';
 });
 
-window.addEventListener('click', (e) => {
-    if (e.target === searchModal) {
-        searchModal.style.display = 'none';
-        searchInput.value = '';
-        searchResults.innerHTML = '';
-        noResults.style.display = 'none';
-    }
+// Close on overlay click
+document.querySelectorAll('.modal-overlay').forEach(modal => {
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('show');
+            if (modal === searchModal) {
+                searchInput.value = '';
+                searchResults.innerHTML = '';
+                noResults.style.display = 'none';
+            }
+        }
+    });
 });
 
+// Search
 searchInput.addEventListener('input', () => {
     const query = searchInput.value.toLowerCase().trim();
     searchResults.innerHTML = '';
@@ -174,8 +197,7 @@ searchInput.addEventListener('input', () => {
     if (query === '') return;
 
     const results = searchableContent.filter(item => 
-        item.title.toLowerCase().includes(query) || 
-        item.text.toLowerCase().includes(query)
+        item.title.toLowerCase().includes(query) || item.text.toLowerCase().includes(query)
     );
 
     if (results.length === 0) {
@@ -188,9 +210,10 @@ searchInput.addEventListener('input', () => {
         const a = document.createElement('a');
         a.href = result.url;
         a.textContent = result.title;
-        a.addEventListener('click', () => {
-            searchModal.style.display = 'none';
-            searchInput.value = '';
+        a.addEventListener('click', (e) => {
+            e.preventDefault();
+            searchModal.classList.remove('show');
+            document.querySelector(result.url).scrollIntoView({ behavior: 'smooth' });
         });
         li.appendChild(a);
         const p = document.createElement('p');
@@ -200,99 +223,27 @@ searchInput.addEventListener('input', () => {
     });
 });
 
-
-
-
-const aiBtn = document.querySelector('.ai-btn');
-const aiModal = document.getElementById('ai-modal');
-const closeAi = document.querySelector('.close-ai');
-const aiInput = document.getElementById('ai-input');
-const aiSend = document.getElementById('ai-send');
-const aiChat = document.querySelector('.ai-chat');
-
-let conversationHistory = [
-    { role: "system", content: "You are a friendly, helpful AI assistant on a developer's portfolio website. Answer naturally and conversationally. Keep responses concise but informative. You can talk about the portfolio, web development, coding, or any topic the user asks." }
-];
-
+// AI Chat
 function addMessage(text, type) {
     const msg = document.createElement('div');
-    msg.classList.add('ai-message', type);
+    msg.classList.add('message', type);
     msg.textContent = text;
     aiChat.appendChild(msg);
     aiChat.scrollTop = aiChat.scrollHeight;
 }
 
-async function getAIResponse(userMessage) {
-    conversationHistory.push({ role: "user", content: userMessage });
-
-    try {
-        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${GROQ_API_KEY}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                model: "llama3-70b-8192",
-                messages: conversationHistory,
-                temperature: 0.7,
-                max_tokens: 500
-            })
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        const reply = data.choices[0].message.content.trim();
-        conversationHistory.push({ role: "assistant", content: reply });
-        return reply;
-    } catch (error) {
-        console.error("AI Error:", error);
-        return "Sorry, I'm having trouble connecting right now. Please try again later.";
-    }
-}
-
-aiBtn.addEventListener('click', () => {
-    aiModal.style.display = 'flex';
-});
-
-closeAi.addEventListener('click', () => {
-    aiModal.style.display = 'none';
-});
-
-window.addEventListener('click', (e) => {
-    if (e.target === aiModal) {
-        aiModal.style.display = 'none';
-    }
-});
-
-aiSend.addEventListener('click', sendMessage);
-aiInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') sendMessage();
-});
-
-async function sendMessage() {
+aiSend.addEventListener('click', () => {
     const text = aiInput.value.trim();
     if (text === '') return;
 
-    addMessage(text, 'user');
+    addMessage(text, 'user-message');
     aiInput.value = '';
 
-    addMessage("Typing...", 'bot');
-
-    const reply = await getAIResponse(text);
-    aiChat.lastChild.remove();
-    addMessage(reply, 'bot');
-}
-
-// Left floating buttons functionality
-document.querySelector('.theme-float').addEventListener('click', () => {
-    themeSwitch.checked = !themeSwitch.checked;
-    themeSwitch.dispatchEvent(new Event('change'));
+    setTimeout(() => {
+        addMessage("Thanks for your message! This is a demo AI response. 😊 (Real AI coming soon)", 'bot-message');
+    }, 800);
 });
 
-document.querySelector('.top-float').addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+aiInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') aiSend.click();
 });
