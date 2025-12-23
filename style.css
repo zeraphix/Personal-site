@@ -27,6 +27,7 @@ body, html {
     overflow-x: hidden;
     scroll-behavior: smooth;
     transition: background 0.5s ease, color 0.5s ease;
+    cursor: none;
 }
 
 #particle-canvas {
@@ -48,13 +49,13 @@ section {
 .content {
     max-width: 900px;
     opacity: 0;
-    transform: translateX(-100px);
+    transform: translateY(50px);
     transition: opacity 1s ease, transform 1s ease;
 }
 
-.content.visible {
+.content.reveal {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
 }
 
 h1 {
@@ -128,7 +129,8 @@ p {
     color: var(--accent);
     background: rgba(0, 255, 157, 0.15);
     border-left-color: var(--accent);
-    transform: translateX(10px);
+    transform: translateX(15px) scale(1.05);
+    box-shadow: 0 0 20px rgba(0, 255, 157, 0.4);
 }
 
 .nav-btn:hover svg {
@@ -245,11 +247,19 @@ p {
     max-width: 700px;
 }
 
-.skill {
+.skill, .project-card {
     margin-bottom: 35px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    transition: all 0.4s ease;
+}
+
+.skill:hover, .project-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 255, 157, 0.2);
+    background: rgba(0, 255, 157, 0.1);
 }
 
 .skill-icon-img {
@@ -337,6 +347,145 @@ p {
 .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(8px, 8px); }
 .hamburger.active span:nth-child(2) { opacity: 0; }
 .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+
+.sidebar-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.4s;
+}
+
+.sidebar-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Custom Designed Cursor */
+.custom-cursor {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    transform: translate(-50%, -50%);
+    transition: transform 0.08s ease;
+}
+
+.cursor-ring {
+    width: 30px;
+    height: 30px;
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(0, 255, 157, 0.6);
+    transition: all 0.3s ease;
+}
+
+.cursor-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 20px 8px var(--accent);
+    opacity: 0.8;
+}
+
+/* Outer soft glow trail */
+.custom-cursor::before {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.4;
+    filter: blur(15px);
+    animation: breathe 3s infinite ease-in-out;
+}
+
+/* Hover state */
+.custom-cursor.hover .cursor-ring {
+    width: 50px;
+    height: 50px;
+    border-width: 3px;
+    box-shadow: 0 0 30px rgba(0, 255, 157, 0.8);
+}
+
+.custom-cursor.hover .cursor-glow {
+    width: 16px;
+    height: 16px;
+    box-shadow: 0 0 30px 12px var(--accent);
+}
+
+.custom-cursor.hover::before {
+    width: 90px;
+    height: 90px;
+    opacity: 0.6;
+    filter: blur(20px);
+}
+
+@keyframes breathe {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.5; }
+}
+
+/* Back to Top */
+#back-to-top {
+    position: fixed;
+    bottom: 160px;
+    right: 20px;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+}
+
+#back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Loading Screen */
+.loader {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: opacity 1s ease;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 5px solid rgba(0, 255, 157, 0.3);
+    border-top: 5px solid var(--accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+body.loaded .loader {
+    opacity: 0;
+    pointer-events: none;
+}
 
 /* Beautiful Modals */
 .modal-overlay {
@@ -510,6 +659,7 @@ p {
     transform: scale(1.05);
 }
 
+/* Mobile */
 @media (max-width: 768px) {
     .hamburger { display: block; }
 

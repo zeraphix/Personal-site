@@ -1,3 +1,28 @@
+// Loading Screen
+window.addEventListener('load', () => {
+    document.body.classList.add('loaded');
+});
+
+// Fancy Custom Designed Cursor
+const customCursor = document.querySelector('.custom-cursor');
+
+document.addEventListener('mousemove', (e) => {
+    customCursor.style.left = e.clientX + 'px';
+    customCursor.style.top = e.clientY + 'px';
+});
+
+// Hover effect on interactive elements
+const hoverElements = document.querySelectorAll('a, button, .nav-btn, input, textarea, .contact-link');
+
+hoverElements.forEach(el => {
+    el.addEventListener('mouseenter', () => {
+        customCursor.classList.add('hover');
+    });
+    el.addEventListener('mouseleave', () => {
+        customCursor.classList.remove('hover');
+    });
+});
+
 // Particle Background
 const canvas = document.getElementById('particle-canvas');
 const ctx = canvas.getContext('2d');
@@ -78,14 +103,18 @@ themeSwitch.addEventListener('change', () => {
     animateParticles();
 });
 
-// Fade-in content
-const contents = document.querySelectorAll('.content');
-const observer = new IntersectionObserver(entries => {
+// Section Reveal
+const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
+        if (entry.isIntersecting) {
+            entry.target.classList.add('reveal');
+        }
     });
-}, { threshold: 0.2 });
-contents.forEach(c => observer.observe(c));
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.content').forEach(section => {
+    revealObserver.observe(section);
+});
 
 // Sidebar active link
 const sections = document.querySelectorAll('section');
@@ -113,20 +142,44 @@ const barObserver = new IntersectionObserver(entries => {
 }, { threshold: 0.5 });
 bars.forEach(bar => barObserver.observe(bar));
 
-// Hamburger Menu
+// Hamburger Menu + Overlay
 const hamburger = document.querySelector('.hamburger');
 const sidebar = document.querySelector('.sidebar');
+const overlay = document.querySelector('.sidebar-overlay');
 
 hamburger.addEventListener('click', () => {
     hamburger.classList.toggle('active');
     sidebar.classList.toggle('active');
+    overlay.classList.toggle('active');
+});
+
+overlay.addEventListener('click', () => {
+    hamburger.classList.remove('active');
+    sidebar.classList.remove('active');
+    overlay.classList.remove('active');
 });
 
 document.querySelectorAll('.nav-btn').forEach(link => {
     link.addEventListener('click', () => {
         hamburger.classList.remove('active');
         sidebar.classList.remove('active');
+        overlay.classList.remove('active');
     });
+});
+
+// Back to Top
+const backToTop = document.getElementById('back-to-top');
+
+window.addEventListener('scroll', () => {
+    if (window.pageYOffset > 300) {
+        backToTop.classList.add('show');
+    } else {
+        backToTop.classList.remove('show');
+    }
+});
+
+backToTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
 // Search & AI Functionality
