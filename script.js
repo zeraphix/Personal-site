@@ -1,9 +1,14 @@
 // Loading Screen
+const loadingScreen = document.querySelector('.loading-screen');
+
 window.addEventListener('load', () => {
-    document.body.classList.add('loaded');
+    setTimeout(() => {
+        loadingScreen.classList.add('hidden');
+        document.body.classList.add('loaded');
+    }, 1500); // 1.5 seconds delay for smooth feel
 });
 
-// Fancy Custom Designed Cursor
+// Custom Cursor: Normal arrow with green glow
 const customCursor = document.querySelector('.custom-cursor');
 
 document.addEventListener('mousemove', (e) => {
@@ -11,7 +16,7 @@ document.addEventListener('mousemove', (e) => {
     customCursor.style.top = e.clientY + 'px';
 });
 
-// Hover effect on interactive elements
+// Grow on hover (links, buttons, etc.)
 const hoverElements = document.querySelectorAll('a, button, .nav-btn, input, textarea, .contact-link');
 
 hoverElements.forEach(el => {
@@ -23,7 +28,7 @@ hoverElements.forEach(el => {
     });
 });
 
-// Particle Background
+// Particle Background (subtle, static)
 const canvas = document.getElementById('particle-canvas');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
@@ -103,7 +108,7 @@ themeSwitch.addEventListener('change', () => {
     animateParticles();
 });
 
-// Section Reveal
+// Section Reveal (fade in on scroll)
 const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -118,14 +123,14 @@ document.querySelectorAll('.content').forEach(section => {
 
 // Sidebar active link
 const sections = document.querySelectorAll('section');
-const links = document.querySelectorAll('.nav-btn');
+const navLinks = document.querySelectorAll('.nav-btn');
 
 window.addEventListener('scroll', () => {
     let current = '';
     sections.forEach(sec => {
         if (pageYOffset >= sec.offsetTop - 200) current = sec.id;
     });
-    links.forEach(link => {
+    navLinks.forEach(link => {
         link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
     });
 });
