@@ -27,7 +27,25 @@ body, html {
     overflow-x: hidden;
     scroll-behavior: smooth;
     transition: background 0.5s ease, color 0.5s ease;
-    cursor: none;
+}
+
+/* Small green triangle arrow cursor - slim, sharp, pointing up-left - Desktop only */
+@media (pointer: fine) {
+    body {
+        cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><defs><filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><polygon points="0,0 24,6 12,24" fill="%2300ff9d" filter="url(%23glow)"/><polygon points="0,0 24,6 12,24" fill="none" stroke="%2300ff9d" stroke-width="1.5" opacity="0.6"/></svg>'), auto;
+    }
+}
+
+/* Hide custom cursor on mobile */
+@media (pointer: coarse) {
+    body {
+        cursor: default !important;
+    }
+}
+
+/* Hover glow */
+a:hover, button:hover, .nav-btn:hover {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><defs><filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3.5" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><polygon points="0,0 24,6 12,24" fill="%2300ff9d" filter="url(%23glow)"/><polygon points="0,0 24,6 12,24" fill="none" stroke="%2300ff9d" stroke-width="2" opacity="0.8"/></svg>'), pointer;
 }
 
 #particle-canvas {
@@ -363,36 +381,6 @@ p {
 .sidebar-overlay.active {
     opacity: 1;
     visibility: visible;
-}
-
-/* Custom Cursor: Normal arrow shape with green glow */
-.custom-cursor {
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    left: 0;
-    top: 0;
-    transform: translate(-50%, -50%);
-    width: 32px;
-    height: 32px;
-    transition: transform 0.08s ease;
-}
-
-.custom-cursor::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M5 0L0 5L10 15L0 25L5 30L15 20L25 30L30 25L20 15L30 5L25 0L15 10Z" fill="%2300ff9d"/></svg>') no-repeat center;
-    filter: drop-shadow(0 0 8px var(--accent)) drop-shadow(0 0 15px var(--accent));
-    transition: transform 0.3s ease;
-}
-
-.custom-cursor.hover::before {
-    transform: scale(1.2);
-    filter: drop-shadow(0 0 12px var(--accent)) drop-shadow(0 0 20px var(--accent));
 }
 
 /* Loading Screen */

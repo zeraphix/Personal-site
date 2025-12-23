@@ -8,26 +8,6 @@ window.addEventListener('load', () => {
     }, 1500); // 1.5 seconds delay for smooth feel
 });
 
-// Custom Cursor: Normal arrow with green glow
-const customCursor = document.querySelector('.custom-cursor');
-
-document.addEventListener('mousemove', (e) => {
-    customCursor.style.left = e.clientX + 'px';
-    customCursor.style.top = e.clientY + 'px';
-});
-
-// Grow on hover (links, buttons, etc.)
-const hoverElements = document.querySelectorAll('a, button, .nav-btn, input, textarea, .contact-link');
-
-hoverElements.forEach(el => {
-    el.addEventListener('mouseenter', () => {
-        customCursor.classList.add('hover');
-    });
-    el.addEventListener('mouseleave', () => {
-        customCursor.classList.remove('hover');
-    });
-});
-
 // Particle Background (subtle, static)
 const canvas = document.getElementById('particle-canvas');
 const ctx = canvas.getContext('2d');
