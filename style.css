@@ -4,9 +4,9 @@
     --text-secondary: #b0b0b0;
     --accent: #00ff9d;
     --sidebar-bg: rgba(20, 20, 20, 0.9);
-    --particle-dark: #444444;
-    --particle-light: #aaaaaa;
     --scrollbar: #00ff9d;
+    --forest-dark: url('https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+    --forest-light: url('https://images.unsplash.com/photo-1420593248178-d88870618ca0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
 }
 
 [data-theme="light"] {
@@ -22,11 +22,45 @@ body, html {
     margin: 0;
     padding: 0;
     font-family: 'Inter', sans-serif;
-    background: var(--bg);
     color: var(--text);
     overflow-x: hidden;
     scroll-behavior: smooth;
     transition: background 0.5s ease, color 0.5s ease;
+    height: 100%;
+}
+
+/* Blurry pure forest trees background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: var(--forest-dark);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    filter: blur(12px);
+    z-index: -2;
+    opacity: 0.9;
+}
+
+[data-theme="light"] body::before {
+    background-image: var(--forest-light);
+    opacity: 0.85;
+}
+
+/* Overlay for better text readability */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(10, 10, 10, 0.45);
+    z-index: -1;
+}
+
+[data-theme="light"] body::after {
+    background: rgba(255, 255, 255, 0.35);
 }
 
 /* Small green triangle arrow cursor - slim, sharp, pointing up-left - Desktop only */
@@ -48,15 +82,6 @@ a:hover, button:hover, .nav-btn:hover {
     cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><defs><filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3.5" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><polygon points="0,0 24,6 12,24" fill="%2300ff9d" filter="url(%23glow)"/><polygon points="0,0 24,6 12,24" fill="none" stroke="%2300ff9d" stroke-width="2" opacity="0.8"/></svg>'), pointer;
 }
 
-#particle-canvas {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: -1;
-    opacity: 0.6;
-    pointer-events: none;
-}
-
 section {
     min-height: 100vh;
     display: flex;
@@ -65,11 +90,30 @@ section {
     padding: 120px 80px 80px 340px;
 }
 
+/* Fix top space on home section */
+#home {
+    align-items: flex-start;
+    padding-top: 140px;
+}
+
+/* Content cards - high contrast for visibility */
 .content {
     max-width: 900px;
     opacity: 0;
     transform: translateY(50px);
     transition: opacity 1s ease, transform 1s ease;
+    background: rgba(20, 20, 20, 0.85);
+    padding: 50px;
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 255, 157, 0.3);
+}
+
+[data-theme="light"] .content {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 204, 122, 0.4);
 }
 
 .content.reveal {
@@ -91,12 +135,13 @@ h2 {
     font-size: 36px;
     font-weight: 600;
     margin-bottom: 35px;
+    color: var(--accent);
 }
 
 p {
     font-size: 18px;
     line-height: 1.8;
-    color: var(--text-secondary);
+    color: var(--text);
     margin-bottom: 20px;
 }
 
@@ -176,7 +221,7 @@ p {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    z-index: 1000;
+    z-index: 1001;
 }
 
 .search-float { bottom: 90px; }
@@ -188,7 +233,7 @@ p {
     border: none;
     border-radius: 50%;
     cursor: pointer;
-    box-shadow: 0 6px 20px rgba(0, 255, 157, 0.4);
+    box-shadow: 0 6px 20px rgba(0, 255, 157, 0.6);
     transition: all 0.4s ease;
     display: flex;
     align-items: center;
@@ -197,7 +242,7 @@ p {
 
 .search-btn:hover, .ai-btn:hover {
     transform: translateY(-4px) scale(1.1);
-    box-shadow: 0 12px 30px rgba(0, 255, 157, 0.6);
+    box-shadow: 0 12px 30px rgba(0, 255, 157, 0.8);
 }
 
 .search-btn svg, .ai-btn svg {
@@ -210,7 +255,7 @@ p {
     position: fixed;
     top: 30px;
     right: 40px;
-    z-index: 1000;
+    z-index: 1001;
 }
 
 .theme-switch-input { display: none; }
@@ -269,7 +314,7 @@ p {
 .skill, .project-card {
     margin-bottom: 35px;
     padding: 25px;
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
     border-radius: 15px;
     transition: all 0.4s ease;
@@ -417,15 +462,35 @@ p {
     100% { transform: rotate(360deg); }
 }
 
-/* Back to Top */
+/* Back to Top - Green */
 #back-to-top {
     position: fixed;
     bottom: 160px;
     right: 20px;
-    z-index: 1000;
+    z-index: 1001;
     opacity: 0;
     visibility: hidden;
     transition: all 0.4s ease;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--accent), #00cc7a);
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 6px 20px rgba(0, 255, 157, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#back-to-top svg {
+    stroke: #000;
+    width: 20px;
+    height: 20px;
+}
+
+#back-to-top:hover {
+    transform: translateY(-4px) scale(1.1);
+    box-shadow: 0 12px 30px rgba(0, 255, 157, 0.6);
 }
 
 #back-to-top.show {
@@ -465,6 +530,10 @@ p {
     box-shadow: 0 20px 60px rgba(0, 255, 157, 0.3);
     border: 1px solid rgba(0, 255, 157, 0.2);
     overflow: hidden;
+}
+
+[data-theme="light"] .modal-container {
+    background: rgba(240, 240, 240, 0.95);
 }
 
 .modal-header {
@@ -614,7 +683,11 @@ p {
 
     section { padding: 120px 20px 80px; justify-content: center; }
 
-    .content { text-align: center; }
+    #home {
+        padding-top: 100px;
+    }
+
+    .content { text-align: center; padding: 30px; }
 
     .theme-toggle { right: 80px; }
 
